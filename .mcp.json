@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "meeting-notetaker": {
+      "command": "node",
+      "args": ["C:/Users/cody.av/Documents/Repositories/Development/Meeting-Notetaker/mcp/dist/index.js"]
+    },
+    "google-docs": {
+      "command": "node",
+      "args": ["C:/Users/cody.av/Documents/Repositories/Development/Google-Docs-MCP/dist/index.js"]
+    }
+  }
+}

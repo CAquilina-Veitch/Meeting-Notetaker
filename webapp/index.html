@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meeting Notetaker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="sidebar">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-title">
+        <svg class="header-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+        </svg>
+        <span>Meeting Notetaker</span>
+      </div>
+      <div class="connection-indicator" id="connectionIndicator" title="Disconnected">
+        <span class="status-dot"></span>
+      </div>
+    </header>
+
+    <!-- Google Doc URL (always visible at top) -->
+    <section class="doc-section">
+      <div class="doc-row">
+        <input type="text" id="docUrl" class="doc-input" placeholder="Paste Google Docs URL..." />
+        <button id="openDocBtn" class="icon-btn" title="Open document">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </button>
+      </div>
+      <span id="docStatus" class="doc-status"></span>
+    </section>
+
+    <!-- Note Input Section -->
+    <section class="note-input-section">
+      <textarea
+        id="notesInput"
+        class="note-textarea"
+        placeholder="Type a note... (Ctrl+Enter to queue)"
+        rows="2"
+      ></textarea>
+      <div class="input-hint">
+        <span class="hint-text">Ctrl+Enter to queue</span>
+        <button id="clearBtn" class="hint-btn" title="Clear">Clear</button>
+      </div>
+    </section>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <div class="status-item pending" id="pendingStatus">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span><span id="pendingCount">0</span> pending</span>
+      </div>
+      <div class="status-item processed" id="processedStatus">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span><span id="processedCount">0</span> processed</span>
+      </div>
+    </div>
+
+    <!-- Scrollable Notes Area -->
+    <div class="notes-area">
+      <!-- Queued Notes -->
+      <section class="notes-section">
+        <div class="notes-section-header">
+          <span class="section-label">Queued</span>
+        </div>
+        <div id="queuedNotes" class="notes-list">
+          <div class="empty-state">No notes in queue</div>
+        </div>
+      </section>
+
+      <!-- Processed Notes -->
+      <section class="notes-section">
+        <div class="notes-section-header">
+          <span class="section-label">Processed</span>
+          <button id="clearProcessedBtn" class="text-btn-small" title="Clear all">Clear</button>
+        </div>
+        <div id="processedNotes" class="notes-list">
+          <div class="empty-state">No processed notes yet</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Quick Links (Collapsible at bottom) -->
+    <section class="collapsible-section" id="linksSection">
+      <button class="section-toggle" data-target="linksContent">
+        <span class="section-title">Quick Links</span>
+        <div class="section-actions">
+          <button id="addLinkBtn" class="icon-btn-small" title="Add link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+      </button>
+      <div class="section-content collapsed" id="linksContent">
+        <div class="links-actions">
+          <button id="addSectionBtn" class="text-btn">+ New Section</button>
+        </div>
+        <div id="quickLinksContainer" class="quick-links-container">
+          <div class="empty-state">No quick links yet</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Add Link Modal -->
+  <div id="addLinkModal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Add Link</h3>
+      <div class="form-group">
+        <label for="linkName">Name</label>
+        <input type="text" id="linkName" placeholder="e.g., Project Roadmap" />
+      </div>
+      <div class="form-group">
+        <label for="linkUrl">URL</label>
+        <input type="text" id="linkUrl" placeholder="https://..." />
+      </div>
+      <div class="form-group">
+        <label for="linkSection">Section</label>
+        <select id="linkSection"></select>
+      </div>
+      <div class="modal-actions">
+        <button id="cancelLinkBtn" class="btn btn-secondary">Cancel</button>
+        <button id="saveLinkBtn" class="btn btn-primary">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Section Modal -->
+  <div id="addSectionModal" class="modal hidden">
+    <div class="modal-content">
+      <h3>New Section</h3>
+      <div class="form-group">
+        <label for="sectionName">Section Name</label>
+        <input type="text" id="sectionName" placeholder="e.g., Client Docs" />
+      </div>
+      <div class="modal-actions">
+        <button id="cancelSectionBtn" class="btn btn-secondary">Cancel</button>
+        <button id="saveSectionBtn" class="btn btn-primary">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

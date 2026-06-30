@@ -1,0 +1,26 @@
+{
+  "name": "meeting-notetaker",
+  "version": "1.0.0",
+  "description": "A local webapp + MCP server system for meeting notes that Claude Code processes and inserts into Google Docs",
+  "private": true,
+  "workspaces": [
+    "server",
+    "mcp"
+  ],
+  "scripts": {
+    "start": "npm run start --workspace=server",
+    "start:server": "npm run start --workspace=server",
+    "start:mcp": "npm run start --workspace=mcp",
+    "dev": "npm run dev --workspace=server",
+    "build:mcp": "npm run build --workspace=mcp",
+    "install:all": "npm install"
+  },
+  "keywords": [
+    "meeting-notes",
+    "mcp",
+    "claude-code",
+    "google-docs"
+  ],
+  "author": "",
+  "license": "MIT"
+}

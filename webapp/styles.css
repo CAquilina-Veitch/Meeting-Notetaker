@@ -1,0 +1,737 @@
+/* Google Suite Style - Meeting Notetaker Sidebar */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+:root {
+  /* Google Suite Color Palette */
+  --bg-primary: #ffffff;
+  --bg-surface: #f8f9fa;
+  --bg-hover: #f1f3f4;
+  --border: #dadce0;
+  --border-focus: #1a73e8;
+  --text-primary: #202124;
+  --text-secondary: #5f6368;
+  --text-tertiary: #80868b;
+  --accent: #1a73e8;
+  --accent-hover: #1557b0;
+  --success: #188038;
+  --success-bg: #e6f4ea;
+  --pending: #f9ab00;
+  --pending-bg: #fef7e0;
+  --error: #d93025;
+  --shadow-sm: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  --shadow-md: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+}
+
+body {
+  font-family: 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  font-size: 14px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sidebar Container - fills entire window */
+.sidebar {
+  width: 100%;
+  height: 100vh;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-primary);
+  flex-shrink: 0;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.header-icon {
+  color: var(--accent);
+}
+
+.connection-indicator {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: default;
+}
+
+.connection-indicator .status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--error);
+  transition: background 0.2s;
+}
+
+.connection-indicator.connected .status-dot {
+  background: var(--success);
+}
+
+/* Doc Section (always visible at top) */
+.doc-section {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.doc-row {
+  display: flex;
+  gap: 8px;
+}
+
+.doc-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.doc-input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+}
+
+.doc-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.doc-status {
+  display: block;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 6px;
+}
+
+.doc-status.success {
+  color: var(--success);
+}
+
+/* Icon Button */
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.icon-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* Note Input Section */
+.note-input-section {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-primary);
+  flex-shrink: 0;
+}
+
+.note-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  resize: none;
+  min-height: 60px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.note-textarea:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+}
+
+.note-textarea::placeholder {
+  color: var(--text-tertiary);
+}
+
+.input-hint {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.hint-text {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.hint-btn {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.hint-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* Status Bar */
+.status-bar {
+  display: flex;
+  gap: 16px;
+  padding: 10px 16px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-item.pending {
+  color: var(--pending);
+}
+
+.status-item.processed {
+  color: var(--success);
+}
+
+/* Scrollable Notes Area */
+.notes-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+}
+
+.notes-section {
+  border-bottom: 1px solid var(--border);
+}
+
+.notes-section:last-child {
+  border-bottom: none;
+}
+
+.notes-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: var(--bg-surface);
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.text-btn-small {
+  background: none;
+  border: none;
+  font-size: 11px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.text-btn-small:hover {
+  background: var(--bg-hover);
+  color: var(--accent);
+}
+
+/* Notes List */
+.notes-list {
+  padding: 8px 12px;
+}
+
+.note-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg-surface);
+  border-radius: 8px;
+  margin-bottom: 6px;
+  border-left: 3px solid var(--pending);
+}
+
+.note-item:last-child {
+  margin-bottom: 0;
+}
+
+.note-item.processed {
+  border-left-color: var(--success);
+  background: var(--success-bg);
+}
+
+.note-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.note-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.note-text {
+  font-size: 13px;
+  color: var(--text-primary);
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+.note-result {
+  font-size: 11px;
+  color: var(--success);
+  margin-top: 4px;
+}
+
+.note-time {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 4px;
+}
+
+.note-actions {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.note-item:hover .note-actions {
+  opacity: 1;
+}
+
+.note-actions button {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 12px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.note-actions button:hover {
+  background: var(--bg-hover);
+  color: var(--error);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 16px;
+  color: var(--text-tertiary);
+  font-size: 13px;
+}
+
+/* Collapsible Sections */
+.collapsible-section {
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.section-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+.section-toggle:hover {
+  background: var(--bg-hover);
+}
+
+.section-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.section-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chevron {
+  color: var(--text-tertiary);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.section-content {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 200px;
+}
+
+.section-content.collapsed {
+  display: none;
+}
+
+/* Icon Button Small */
+.icon-btn-small {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: background 0.15s, color 0.15s;
+}
+
+.icon-btn-small:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* Text Button */
+.text-btn {
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.text-btn:hover {
+  background: rgba(26, 115, 232, 0.08);
+}
+
+/* Quick Links */
+.links-actions {
+  padding: 4px 12px 8px;
+}
+
+.quick-links-container {
+  padding: 0 12px 8px;
+}
+
+.link-section {
+  margin-bottom: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.link-section:last-child {
+  margin-bottom: 0;
+}
+
+.link-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--bg-surface);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.link-section-actions {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.link-section:hover .link-section-actions {
+  opacity: 1;
+}
+
+.link-section-actions button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px 6px;
+  font-size: 11px;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.link-section-actions button:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.link-items {
+  padding: 4px;
+}
+
+.link-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.link-item:hover {
+  background: var(--bg-hover);
+}
+
+.link-item.hidden {
+  opacity: 0.5;
+}
+
+.link-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.link-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.link-name {
+  font-size: 13px;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.link-actions {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.link-item:hover .link-actions {
+  opacity: 1;
+}
+
+.link-actions button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px 6px;
+  font-size: 11px;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.link-actions button:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-primary);
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: var(--bg-primary);
+  padding: 24px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: var(--shadow-md);
+}
+
+.modal-content h3 {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+/* Buttons */
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.btn-secondary {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-hover);
+}
+
+/* Scrollbar */
+.notes-area::-webkit-scrollbar,
+.section-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notes-area::-webkit-scrollbar-track,
+.section-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.notes-area::-webkit-scrollbar-thumb,
+.section-content::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.notes-area::-webkit-scrollbar-thumb:hover,
+.section-content::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
